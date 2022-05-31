@@ -1,10 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Vendas.DbRepository.Context;
-using Vendas.DbRepository.Entities;
 using Vendas.Domain.Adapters;
 using Vendas.Domain.Models;
 
@@ -26,7 +25,7 @@ namespace Vendas.DbRepository
             var vendas = mapper.Map<Venda, Entities.Vendas>(venda);
 
             _context.Add(vendas);
-            await Task.FromResult(_context.SaveChanges());
+            await _context.SaveChangesAsync();
         }
 
         public async Task<Venda> ObterVendaAsync(Guid idVenda)
@@ -45,7 +44,7 @@ namespace Vendas.DbRepository
             var vendas = await Task.FromResult(
                    _context.Vendas.Where(a => a.Id == alteracaoVenda.Id).FirstOrDefault());
             vendas.Status = (int)alteracaoVenda.Status;
-            await Task.FromResult(_context.SaveChanges());
+            await _context.SaveChangesAsync();
         }
     }
 }
